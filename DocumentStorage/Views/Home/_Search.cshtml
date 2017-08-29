@@ -1,0 +1,76 @@
+﻿@using DocumentStorage.Models
+@using DocumentStorage.ViewModels
+@model SearchViewModel
+
+@{
+    int i = 0;
+    string activeClass = string.Empty;
+    double tabWidth = 100.0 / Model.Documents.Select(c => c.Key).Count();
+}
+
+@if (Model.Documents.Count() > 0)
+{
+    <ul class="nav nav-tabs">
+        @foreach (string type in Model.Documents.Select(c => c.Key))
+        {
+            activeClass = i++ == 0 ? "active" : string.Empty;
+            <li class="@activeClass text-center nav-item-custom" style="width:@tabWidth.ToString("0.00").Replace(',', '.')%">
+                <a data-toggle="tab" href="#@type.ToString()">@type</a>
+            </li>
+        }
+    </ul>
+
+    {
+        i = 0;
+        activeClass = string.Empty;
+    }
+
+    <div class="tab-content">
+        @foreach (var item in Model.Documents)
+        {
+            activeClass = i++ == 0 ? "in active" : string.Empty;
+
+            <div id="@item.Key.ToString()" class="tab-pane fade @activeClass">
+                <ul class="list-group">
+                    @foreach (Document doc in item)
+                    {
+                        <li class="list-group-item file-link" data-path="@doc.Path">
+                            <div class="row">
+                                <div class="col-xs-12 margin-5">
+                                    <span class="label label-default label-@doc.CategoryId">@Model.Categories[doc.CategoryId]</span>
+                                </div>
+                                <div class="col-xs-8 margin-5">
+                                    @Html.ActionLink(doc.Name, "Get", "File", new { id = doc.Id }, new { target = "_blank" })
+                                </div>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class="col-xs-4 text-right">
+                                        <button type="button" class="btn btn-danger btn-xs btn-remove" data-id="@doc.Id">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+
+                                    if (!string.IsNullOrEmpty(doc.Source))
+                                    {
+                                        <div class="col-xs-12">
+                                            Джерело: <span class="source-class">@doc.Source</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <b>Нічого не знайдено</b>
+        </div>
+    </div>
+}

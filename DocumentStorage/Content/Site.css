@@ -1,0 +1,89 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.body-account-content {
+    margin-top: 50px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-left: 0px;
+    margin-right: 20px;
+}
+
+.form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.row-margin-10 {
+    margin-bottom: 10px;
+}
+
+.upload-status {
+    display: none;
+}
+
+textarea {
+    resize: none;
+}
+
+table {
+    table-layout: fixed;
+}
+
+.source-class {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.label-2 {
+    background-color: #5bc0de;
+}
+
+.label-3 {
+    background-color: #5cb85c;
+}
+
+.margin-5 {
+    margin-bottom: 5px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus  {
+    background-color: #57a7a7;
+    color: white;
+    font-weight: bolder;
+}
+
+
+@media(max-width: 767px) {
+    .small-center {
+        text-align: center;
+    }
+
+    .small-center .form-control {
+        display: inline-block;
+    }
+
+    .nav-item-custom {
+        float: none;
+        width: 100% !important;
+        border: 1px solid #ddd;
+    }
+}

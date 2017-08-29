@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сховище</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    @{
+                        Dictionary<string, string> navs = new Dictionary<string, string>();
+
+                        navs.Add(Url.Action("Index", "Home"), "<span class='glyphicon glyphicon-home'></span> Домашня");
+
+                        if (User.IsInRole("Admin"))
+                        {
+                            navs.Add(Url.Action("Upload", "Home"), "<span class='glyphicon glyphicon-upload'></span> Завантажити");
+                            navs.Add(Url.Action("Logins", "Account"), "<span class='glyphicon glyphicon-user'></span> Керування користувачами");
+                        }
+
+                        string activeClass = string.Empty;
+
+                        foreach (var item in navs)
+                        {
+                            activeClass = Request.Url.LocalPath.Equals(item.Key) ? "class=active" : string.Empty;
+                            <li @activeClass><a href="@item.Key" class="text-center">@Html.Raw(item.Value)</a></li>
+                        }
+                    }
+                </ul>
+                <form class="navbar-form navbar-right small-center" method="post" action="@Url.Action("Logoff", "Account")">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-default">Вийти</button>
+                </form>
+            </div>
+        </nav>
+      }
+    <div class="container-fluid body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/ajax-toggle")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

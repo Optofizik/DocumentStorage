@@ -1,0 +1,45 @@
+﻿@using DocumentStorage.ViewModels
+@model IndexViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/custom/index")
+}
+
+<div class="row row-margin-10">
+    <div class="col-sm-offset-4 col-sm-4">
+        <h3 class="small-center">Форма пошуку</h3>
+    </div>
+</div>
+@using (Ajax.BeginForm("Search", "Home", new { }, new AjaxOptions() { UpdateTargetId = "result-container", HttpMethod = "POST" }, new { @class = "form-horizontal", id = "search-form" }))
+{
+    @Html.AntiForgeryToken();
+    <div class="row form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(c => c.Mask, new { @class = "control-label col-xs-12 col-sm-4 small-center" })
+            <div class="col-xs-12 col-sm-4 small-center">
+                @Html.TextBoxFor(c => c.Mask, new { @class = "form-control", placeholder = "Введіть будь-яке слово" })
+                @Html.ValidationMessageFor(c => c.Mask)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.CategoryId, new { @class = "control-label col-xs-12 col-sm-4 small-center" })
+            <div class="col-xs-12 col-sm-4 small-center">
+                @Html.DropDownListFor(c => c.CategoryId, Model.Categories, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-4 small-center">
+                <button type="submit" class="btn btn-success">Пошук</button>
+            </div>
+        </div>
+    </div>
+}
+<div id="result-container">
+
+</div>
+<input type="hidden" id="hfDelFile" value="@Url.Action("Delete", "File")" />
+

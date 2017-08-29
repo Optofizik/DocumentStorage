@@ -1,0 +1,36 @@
+﻿@using DocumentStorage.ViewModels
+@model ManageViewModel
+
+@{
+
+}
+
+<form class="form-horizontal" method="post" action="@Url.Action("Manage", "Account")">
+    @Html.AntiForgeryToken();
+    <div class="form-group">
+        @Html.LabelFor(c => c.Login, new { @class = "control-label col-xs-12 col-md-4" })
+        <div class="col-xs-12 col-md-4">
+            @Html.TextBoxFor(c => c.Login, new { @class = "form-control", placeholder = "Введіть логін" })
+            @Html.ValidationMessageFor(c => c.Login)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Password, new { @class = "control-label col-xs-12 col-md-4" })
+        <div class="col-xs-12 col-md-4">
+            @Html.TextBoxFor(c => c.Password, new { @class = "form-control", placeholder = "Введіть пароль" })
+            @Html.ValidationMessageFor(c => c.Password)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Role, new { @class = "control-label col-xs-12 col-md-4" })
+        <div class="col-xs-12 col-md-4">
+            @Html.DropDownListFor(c => c.Role, Model.Roles, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Role)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 col-md-offset-4 col-md-4">
+            <button type="submit" class="btn btn-success">Створити</button>
+        </div>
+    </div>
+</form>

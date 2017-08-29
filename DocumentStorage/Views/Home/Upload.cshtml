@@ -1,0 +1,64 @@
+﻿@using DocumentStorage.ViewModels
+@model UploadViewModel
+
+@{
+    ViewBag.Title = "Завантаження";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/custom/upload")
+}
+
+@using (Ajax.BeginForm("Upload", "Home", new { },
+    new AjaxOptions() {
+        HttpMethod = "POST",
+        OnSuccess = "upload.methods.formSuccess",
+        OnFailure = "upload.methods.showError"
+    }, new { @class = "form-horizontal", id = "upload-form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group upload-status" id="form-success">
+        <div class="col-xs-12 col-sm-offset-4 col-sm-4 small-center text-success">
+            <b>Файл успішно завантажено!</b>
+        </div>
+    </div>
+    <div id="file-error" class="form-group upload-status">
+        <div class="col-xs-12 col-sm-offset-4 col-sm-4 small-center text-danger">
+            <b>Не вдалося відправити файл, спробуйте ще раз.</b>
+        </div>
+    </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.Description, new { @class = "control-label col-xs-12 col-sm-4 small-center" })
+            <div class="col-xs-12 col-sm-4 small-center">
+                @Html.TextAreaFor(c => c.Description, 10, 20, new { @class = "form-control upload-control" })
+                @Html.ValidationMessageFor(c => c.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.Source, new { @class = "control-label col-xs-12 col-sm-4 small-center" })
+            <div class="col-xs-12 col-sm-4 small-center">
+                @Html.TextAreaFor(c => c.Source, 5, 10, new { @class = "form-control upload-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(c => c.Category, new { @class = "control-label col-xs-12 col-sm-4 small-center" })
+            <div class="col-xs-12 col-sm-4 small-center">
+                @Html.DropDownListFor(c => c.Category, Model.Categories, new { @class = "form-control upload-control" })
+                @Html.ValidationMessageFor(c => c.Category)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-4 small-center" for="file">Файл:</label>
+            <div class="col-xs-12 col-sm-4 small-center">
+                <input id="file" type="file" class="form-control upload-control" accept="image/*,video/*,audio/*,application/msword,text/plain" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-offset-4 col-sm-4 small-center">
+                <button id="submit-btn" type="submit" class="btn btn-success">Завантажити</button>
+            </div>
+        </div>
+}
+
+<input id="hfUploadFileUrl" type="hidden" value="@Url.Action("Upload", "File")" />

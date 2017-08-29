@@ -1,0 +1,53 @@
+﻿@using DocumentStorage.ViewModels
+@model LoginsViewModel
+
+@{
+    bool isShowDelBtn = true;
+}
+
+<div class="row">
+    <div class="col-xs-2">
+        <a class="btn btn-success" href="@Url.Action("Manage", "Account")">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            Додати нового
+        </a>
+    </div>
+</div>
+
+<h3>Користувачі</h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Логін</th>
+                        <th class="text-center">Роль</th>
+                        <th class="text-center">Видалити</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var login in Model.Users)
+                    {
+                        isShowDelBtn = login.Role != "Admin" || (login.Id != Model.CurrentUserId && Model.Users.Count(c => c.Role == "Admin") > 1);
+
+                        <tr class="text-center">
+                            <td>@login.UserLogin</td>
+                            <td>@login.Role</td>
+                            <td>
+                                @if (isShowDelBtn)
+                                {
+                                    <button type="submit" class="btn btn-danger" formaction="@Url.Action("Delete", "Account", new { id = login.Id })">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
